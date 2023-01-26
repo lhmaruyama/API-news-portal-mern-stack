@@ -3,7 +3,8 @@
 //(body)=> User.create(body) o create é uma função do mongoose que cria o documento no banco de dados, segundo um formato definido em User e recebido pelo body
 //find e findById são funções do mongoose
 
-const User = require("../models/User")
+//const User = require("../models/User")
+import User from "../models/User.js"
 
 const createService = (body)=> User.create(body)
 
@@ -21,4 +22,6 @@ const updateService = (
     background
     ) => User.findOneAndUpdate({_id: id},{name, username, email, password, avatar, background})
 
-module.exports = {createService, findAllService, findByIdService, updateService}
+//module.exports = {createService, findAllService, findByIdService, updateService}
+
+export default {createService, findAllService, findByIdService, updateService}

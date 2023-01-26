@@ -1,14 +1,25 @@
 //console.log("Servidor Iniciado")
 //app.use("/soma", userRoute)
 
-const express = require('express')
+//const express = require('express')
+//const connectDatabase = require("./src/database/db")
+//const userRoute = require("./src/routes/user.route")
+
+//o require é a forma CommonJS de importação (antiga)
+//o import from é a forma ES Modules de importação (mais moderna)
+//é necessário incluir "type": "module" no package.json
+
+import express from 'express'
+import connectDatabase from "./src/database/db.js"
+import userRoute from "./src/routes/user.route.js"
+import dotenv from "dotenv"
+dotenv.config()
+
 const app = express()
 
-const connectDatabase = require("./src/database/db")
-
-const userRoute = require("./src/routes/user.route")
-
-const port = 3000
+//const port = 3000
+const port = process.env.PORT || 3000
+//process.env.PORT é a variavel global que guarda a porta padrão de qualquer servidor
 
 connectDatabase()
 
