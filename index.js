@@ -11,21 +11,26 @@
 
 import express from 'express'
 import connectDatabase from "./src/database/db.js"
-import userRoute from "./src/routes/user.route.js"
 import dotenv from "dotenv"
+
+import userRoute from "./src/routes/user.route.js"
+import authRoute from "./src/routes/auth.route.js"
+
+
 dotenv.config()
 
 const app = express()
 
 //const port = 3000
 const port = process.env.PORT || 3000
-//process.env.PORT é a variavel global que guarda a porta padrão de qualquer servidor
+//process.env.PORT é a variavel de ambiente global que guarda a porta padrão, é usada pela maioria dos servidores
 
 connectDatabase()
 
 app.use(express.json()) //manda o documento para o banco de dados no formato json
 
 app.use("/user", userRoute)
+app.use("/auth", authRoute)
 
 app.listen(port, ()=> console.log(`Servidor rodando na porta ${port}`))
 
