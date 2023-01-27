@@ -23,12 +23,16 @@ const create = async (req, res) => {
     }
 }
 
-const findAll = (req, res) => {
+const findAll = async (req, res) => {
     
     try{
         
-        const news = []
-        res.send(news)
+        const news = await findAllService()
+        res.send(news)    
+        
+        if (news.length === 0){
+            return res.status(400).send({message: "There are no registered news"})
+        }
         
     }catch(err){
         res.status(500).send({message: err.message})
