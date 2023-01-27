@@ -19,6 +19,7 @@ const login = async (req, res)=>{
             return res.status(400).send({message: "User or Password not found"})
         }
 
+        //const token = generateToken(user.id, user.email)
         const token = generateToken(user.id)
         
         res.send({token})
