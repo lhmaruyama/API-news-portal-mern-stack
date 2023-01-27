@@ -1,32 +1,32 @@
 import mongoose from "mongoose";
 
 const NewsSchema = new mongoose.Schema({
-    title:{
+    title: {
         type: String,
-        require:true,
+        require: true,
     },
-    text:{
+    text: {
         type: String,
-        require:true,
+        require: true,
     },
-    banner:{
+    banner: {
         type: String,
-        require:true,
+        require: true,
     },
-    createdAt:{
+    createdAt: {
         type: Date,
         default: Date.now(), //data atual do servidor local
     },
-    user:{
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User", //User é nome da Schema de referencia usada no models User.js, para referenciar uma collection com a outra, no caso de usar um banco dados MongoDB que é not only
-        require: true,
+        required: true,
     },
-    likes:{
+    likes: {
         type: Array,
         require: true,
     },
-    comments:{
+    comments: {
         type: Array,
         require: true,
     },
