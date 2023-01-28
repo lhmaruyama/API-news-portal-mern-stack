@@ -1,5 +1,5 @@
 
-import { createService, findAllService, countNews, topNewsService, findByIdService, searchByTitleService, byUserService } from "../services/news.service.js"
+import { createService, findAllService, countNews, topNewsService, findByIdService, searchByTitleService, byUserService, updateService } from "../services/news.service.js"
 
 const create = async (req, res) => {
     try {
@@ -7,7 +7,7 @@ const create = async (req, res) => {
         const { title, text, banner } = req.body
 
         if (!title || !banner || !text) {
-            res.status(400).send({ message: "Submit all fields for registration" })
+            return res.status(400).send({ message: "Submit all fields for registration" })
         }
         await createService({
             title,
@@ -112,12 +112,21 @@ const topNews = async (req, res) => {
 const findById = async (req, res) => {
 
     try {
-
+        console.log("ENTROU NO findById-----")
+        //const id = "63d3decb4d8c70c3e8373212"
+        //const {id} = req.userId
+        //const id = req.params.id
+        //const id = req.id
+        //const user = req.user
         const {id} = req.params
+        //console.log(req)
         //o texto "id" precisa ser identico ao que está na rota: "/:id"
-
+        
         const news = await findByIdService(id)
-
+        console.log(news)
+        //console.log("news: " + news)
+         
+ 
         return res.send({
             news:{
                 id: news._id,
@@ -131,6 +140,10 @@ const findById = async (req, res) => {
                 userAvatar: news.user.avatar,
             }
         })
+   
+        //return res.send(id)
+
+
 
     } catch (err) {
         res.status(500).send({ message: err.message })
@@ -171,8 +184,6 @@ const searchByTitle = async (req, res) => {
 
 }
 
-
-
 const byUser = async (req, res) => {
 
     try {
@@ -201,5 +212,32 @@ const byUser = async (req, res) => {
 
 }
 
+const update = async (req, res) => {
 
-export { create, findAll, topNews, findById, searchByTitle, byUser }
+    try {
+        
+        const {title, text, banner} = req.body
+        const {id} = req.params //id do post(news)
+
+        if (!title && !banner && !text) {
+            return res.status(400).send({ message: "Submit at last one field to update the post" })
+        }
+
+        const news = await findByIdService(id)
+
+        if(news.user._id != req.userId){
+            return res.status(400).send({ message: "You didn't update this post" })
+        } 
+
+        await updateService(id, title, text, banner)
+
+        return res.send({message: "Post successfully updated"})
+
+    } catch (err) {
+        res.status(500).send({ message: err.message })
+    }
+
+}
+
+
+export { create, findAll, topNews, findById, searchByTitle, byUser, update }

@@ -73,9 +73,10 @@ try{
 
 const findById = async (req, res) => {
 try{
-
+    //console.log("ENTROU NO findById")
     //const id = req.params.id
     //const id = req.id
+
     
 /*  
     if(!mongoose.Types.ObjectId.isValid(id)){
@@ -91,7 +92,7 @@ try{
         return res.status(400).send({message: "User not found"})
     }
 */
-
+    console.log(req)
     res.send(user)
 
 }catch(err){

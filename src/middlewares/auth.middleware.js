@@ -47,7 +47,7 @@ export const authMiddleware = (req, res, next) => {
             }
             
             req.userId = user.id
-            console.log("req.UserId: " + req.userId)
+            //console.log("req.userId: " + req.userId)
 
             //next()
             return next()
