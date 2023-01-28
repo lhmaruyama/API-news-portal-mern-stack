@@ -1,13 +1,13 @@
 
-import {createService, findAllService, countNews} from "../services/news.service.js"
+import { createService, findAllService, countNews, topNewsService, findByIdService } from "../services/news.service.js"
 
 const create = async (req, res) => {
-    try{
+    try {
 
-        const {title, text, banner} = req.body
+        const { title, text, banner } = req.body
 
-        if(!title || !banner || !text){
-            res.status(400).send({message:"Submit all fields for registration"})
+        if (!title || !banner || !text) {
+            res.status(400).send({ message: "Submit all fields for registration" })
         }
         await createService({
             title,
@@ -19,50 +19,50 @@ const create = async (req, res) => {
 
         res.send(201)
 
-    }catch(err){
-        res.status(500).send({message: err.message})
+    } catch (err) {
+        res.status(500).send({ message: err.message })
     }
 }
 
 const findAll = async (req, res) => {
-    
-    try{
-        let {limit, offset} = req.query
+
+    try {
+        let { limit, offset } = req.query
         //paginação
-        limit =  Number(limit)
+        limit = Number(limit)
         offset = Number(offset)
 
-        if(!limit){
+        if (!limit) {
             limit = 5
         }
 
-        if(!offset){
+        if (!offset) {
             offset = 0
         }
 
-        const news = await findAllService(offset,limit)
+        const news = await findAllService(offset, limit)
         const total = await countNews()
-        const curruntUrl =  req.baseUrl
+        const curruntUrl = req.baseUrl
         console.log(total)
 
         const next = offset + limit
         const nextUrl = next < total ? `${curruntUrl}?limit=${limit}&offset=${next}` : null
-        
+
         const previous = offset - limit < 0 ? null : offset - limit
         const previousUrl = previous != null ? `${curruntUrl}?limit=${limit}&offset=${previous}` : null
 
 
-        if (news.length === 0){
-            return res.status(400).send({message: "There are no registered news"})
+        if (news.length === 0) {
+            return res.status(400).send({ message: "There are no registered news" })
         }
-        
+
         res.send({
             nextUrl,
             previousUrl,
             limit,
             offset,
             total,
-            results: news.map(item =>({
+            results: news.map(item => ({
                 id: item._id,
                 title: item.title,
                 text: item.text,
@@ -72,13 +72,70 @@ const findAll = async (req, res) => {
                 name: item.user.name,
                 username: item.user.username,
                 userAvatar: item.user.avatar,
-
             }))
-        })  
+        })
 
-    }catch(err){
-        res.status(500).send({message: err.message})
+    } catch (err) {
+        res.status(500).send({ message: err.message })
     }
 }
 
-export { create, findAll}
+const topNews = async (req, res) => {
+
+    try {
+
+        const news = await topNewsService()
+
+        if(!news){
+            return res.status(400).send({ message: "There is no registered post" })
+        }
+
+        res.send({
+            news:{
+                id: news._id,
+                title: news.title,
+                text: news.text,
+                banner: news.banner,
+                likes: news.likes,
+                comments: news.comments,
+                name: news.user.name,
+                username: news.user.username,
+                userAvatar: news.user.avatar,
+            }
+        })
+
+    } catch (err) {
+        res.status(500).send({ message: err.message })
+    }
+}
+
+const findById = async (req, res) => {
+
+    try {
+
+        const {id} = req.params
+        //o texto "id" precisa ser identico ao que está na rota: "/:id"
+
+        const news = await findByIdService(id)
+
+        return res.send({
+            news:{
+                id: news._id,
+                title: news.title,
+                text: news.text,
+                banner: news.banner,
+                likes: news.likes,
+                comments: news.comments,
+                name: news.user.name,
+                username: news.user.username,
+                userAvatar: news.user.avatar,
+            }
+        })
+
+    } catch (err) {
+        res.status(500).send({ message: err.message })
+    }
+
+}
+
+export { create, findAll, topNews, findById }
