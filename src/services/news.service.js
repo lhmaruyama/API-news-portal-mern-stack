@@ -24,5 +24,6 @@ const byUserService = (id) => News.find({ user: id }).sort({ _id: -1 }).populate
 
 const updateService = (id, title, text, banner) => News.findOneAndUpdate({ _id: id }, { title, text, banner }, { rawResult: true })
 
+const eraseService = (id) => News.findByIdAndDelete({_id: id})
 
-export { createService, findAllService, countNews, topNewsService, findByIdService, searchByTitleService, byUserService, updateService }
+export { createService, findAllService, countNews, topNewsService, findByIdService, searchByTitleService, byUserService, updateService, eraseService }

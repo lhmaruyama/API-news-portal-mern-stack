@@ -1,5 +1,5 @@
 
-import { createService, findAllService, countNews, topNewsService, findByIdService, searchByTitleService, byUserService, updateService } from "../services/news.service.js"
+import { createService, findAllService, countNews, topNewsService, findByIdService, searchByTitleService, byUserService, updateService, eraseService } from "../services/news.service.js"
 
 const create = async (req, res) => {
     try {
@@ -239,5 +239,24 @@ const update = async (req, res) => {
 
 }
 
+const erase = async (req, res) => {
+try {
+    const {id} = req.params
 
-export { create, findAll, topNews, findById, searchByTitle, byUser, update }
+    const news = await findByIdService(id)
+
+    if(news.user._id != req.userId){
+        return res.status(400).send({ message: "You didn't delete this post" })
+    } 
+
+    await eraseService(id)
+
+    return res.send({message: "Post successfully deleted"})
+
+} catch (err) {
+    res.status(500).send({ message: err.message })
+}
+}
+
+
+export { create, findAll, topNews, findById, searchByTitle, byUser, update, erase }
