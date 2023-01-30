@@ -1,5 +1,5 @@
 
-import { createService, findAllService, countNews, topNewsService, findByIdService, searchByTitleService, byUserService, updateService, eraseService } from "../services/news.service.js"
+import { createService, findAllService, countNews, topNewsService, findByIdService, searchByTitleService, byUserService, updateService, eraseService, likeNewsService, deletelikeNewsService, addCommentService, deleteCommentService } from "../services/news.service.js"
 
 const create = async (req, res) => {
     try {
@@ -240,23 +240,84 @@ const update = async (req, res) => {
 }
 
 const erase = async (req, res) => {
-try {
-    const {id} = req.params
+    try {
+        const {id} = req.params
 
-    const news = await findByIdService(id)
+        const news = await findByIdService(id)
 
-    if(news.user._id != req.userId){
-        return res.status(400).send({ message: "You didn't delete this post" })
-    } 
+        if(news.user._id != req.userId){
+            return res.status(400).send({ message: "You didn't delete this post" })
+        } 
 
-    await eraseService(id)
+        await eraseService(id)
 
-    return res.send({message: "Post successfully deleted"})
+        return res.send({message: "Post successfully deleted"})
 
-} catch (err) {
-    res.status(500).send({ message: err.message })
+    } catch (err) {
+        res.status(500).send({ message: err.message })
+    }
 }
+
+const likeNews = async(req, res) => {
+    try {
+        const {id} = req.params
+        const userId = req.userId
+        const newsLiked = await likeNewsService(id, userId)
+
+        if(!newsLiked){
+            await deletelikeNewsService(id, userId)
+            return res.status(200).send({message: "Like sucessfully removed"})
+        }
+
+        res.send({message: "Like done successfully"})
+        
+    } catch (err) {
+        res.status(500).send({ message: err.message })     
+    }
 }
 
+const addComment  = async(req, res) => {
+    try {
+        const {id} = req.params
+        const userId = req.userId
+        const {comment} = req.body
+        if(!comment){
+            return res.status(400).send({ message: "Write a message to comment" })
+        }
+        await addCommentService(id, comment, userId)
 
-export { create, findAll, topNews, findById, searchByTitle, byUser, update, erase }
+        res.send({message: "Comment successfully completed"})
+       
+    
+    } catch (error) {
+        res.status(500).send({ message: err.message }) 
+    }
+}
+
+const deleteComment  = async(req, res) => {
+    try {
+        const {idNews, idComment} = req.params
+        const userId = req.userId
+
+        const commentDeleted = await deleteCommentService(idNews, idComment, userId)
+
+        const commentFinder = commentDeleted.comments.find((comment) => comment.idComment === idComment)
+
+        if(!commentFinder){
+            return res.status(404).send({ message: "Comment not found" })
+        }
+
+        if(commentFinder.userId !== userId){
+            return res.status(400).send({ message: "You can't delete this comment" })
+        }
+
+
+        res.send({message: "Comment successfully removed"})
+       
+    
+    } catch (error) {
+        res.status(500).send({ message: err.message }) 
+    }
+}
+
+export { create, findAll, topNews, findById, searchByTitle, byUser, update, erase, likeNews, addComment, deleteComment }
