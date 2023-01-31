@@ -38,7 +38,7 @@
                     "username": "lhmaruyama",
                     "email": "lhmaruyama@gmail.com",
                     "password": "1234567",
-                    "avatar": "https://i.imgur.com/Ry1cb5M.png",
+                    "avatar": "https://avatars.githubusercontent.com/u/120664645?v=4",
                     "background": "https://images.wallpapersden.com/image/download/triangle-8k-blue-pattern_bGZlbmiUmZqaraWkpJRmbmdlrWZlbWU.jpg"
                   }
                 }
@@ -183,7 +183,7 @@
     },
     "/auth": {
       "post": {
-        "summary": "Login to Breaking News",
+        "summary": "Login to Portal News",
         "description": "Route responsible for logging in a registered user",
         "tags": ["Auth"],
         "requestBody": {
