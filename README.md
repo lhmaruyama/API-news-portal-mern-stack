@@ -32,7 +32,7 @@ Imagem da tela de documentação da API
 ## Objetivo do projeto
 O objetivo deste projeto é:
 <br>
--Praticar o desenvolvimento do back end de uma aplicação web.
+-Praticar o desenvolvimento do back end de uma aplicação web, documentação e deploy do sistema.
 <br>
 -Praticar o desenvolvimento de códigos para requisições do tipo GET, POST, PATCH e DELETE consumindo dados via API.
 <br>
