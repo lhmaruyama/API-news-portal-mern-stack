@@ -11,7 +11,10 @@ Foi implementado os seguintes recursos:
 -Documentação e Deploy da API
 
 Este projeto foi desenvolvido ao longo do curso de formação MERN STACK para desenvolvedores Full Stack e é dividido em duas partes, front end e back end. Nesta primeira etapa foi implementada toda a estrutura "não visual", ou seja o back end. É o "código" que conecta a internet com o banco de dados, gerencia as conexões dos usuários e alimenta a aplicação web. O backend trabalha em conjunto com o frontend para entregar o produto para o usuário final. O front end será desenvolvido em outro repositório mais adiante. A documentação deste projeto API Portal News pode ser acessada no link abaixo:
-
+<br>
+<a href='https://lhmaruyama.github.io/agenda-firebase/'><img src='https://live.staticflickr.com/65535/52661165511_bd44d0eca3_c.jpg' heigth="350" width="350"></a>
+<br>
+Imagem da tela de documentação da API
 
 
 
